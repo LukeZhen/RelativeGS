@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relative Grading System</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Upload Grades</h1>
+        <form id="uploadForm">
+            <input type="file" name="file" id="fileInput" required />
+            <button type="submit">Upload and Process</button>
+        </form>
+        <div class="result" id="result">
+            <!-- Results will be displayed here -->
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('uploadForm');
+        const resultDiv = document.getElementById('result');
+
+        form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const fileInput = document.getElementById('fileInput');
+    const formData = new FormData();
+    formData.append('file', fileInput.files[0]);
+
+    try {
+        const response = await fetch('/upload-grades', {
+            method: 'POST',
+            body: formData,
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to process grades');
+        }
+
+        const data = await response.json();
+        console.log("Response from server:", data);
+
+        let resultHTML = `<p>${data.message}</p>`;
+
+        if (data.students) {
+            resultHTML += `
+                <table border="1" style="width:100%; border-collapse: collapse; text-align: left;">
+                    <tr>
+                        <th>Student ID</th>
+                        <th>Name</th>
+                        <th>Score</th>
+                        <th>Grade</th>
+                    </tr>
+            `;
+            data.students.forEach(student => {
+                resultHTML += `
+                    <tr>
+                        <td>${student.StudentID}</td>
+                        <td>${student.Name}</td>
+                        <td>${student.Score}</td>
+                        <td>${student.Grade}</td>
+                    </tr>
+                `;
+            });
+            resultHTML += `</table>`;
+        }
+
+        resultHTML += `<img src="data:image/png;base64,${data.grade_plot}" alt="Grade Distribution" />`;
+        resultDiv.innerHTML = resultHTML;
+
+    } catch (error) {
+        resultDiv.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+    }
+});
+
+
+
+                                                                                                            
+    </script>
+</body>
+</html>
