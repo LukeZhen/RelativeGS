@@ -89,25 +89,4 @@ Grades are assigned based on the mean and standard deviation of the scores:
 - `D`: Mean - 1.5 * Std ≤ Score < Mean - 0.5 * Std
 - `F`: Score < Mean - 1.5 * Std
 
-## Screenshots
-
-### Upload Interface
-![Upload Interface](https://via.placeholder.com/800x400)
-
-### Grade Distribution Chart
-![Grade Chart](https://via.placeholder.com/800x400)
-
-## License
-
-This project is licensed under the MIT License. See the `LICENSE` file for details.
-
-## Contributing
-
-Contributions are welcome! Please fork the repository and submit a pull request.
-
-## Contact
-
-For questions or suggestions, please contact:
-- **Your Name**: your.email@example.com
-- **GitHub**: [your-username](https://github.com/your-username/)
 
